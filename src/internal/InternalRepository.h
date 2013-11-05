@@ -27,8 +27,14 @@ class InternalRepository : public ObjectRepository, public InternalConnection
 		//     Typically this is used to listen to an UberDOG.
 		void attach_object_view(DistributedObject view);
 
-		// create_distributed_view creates a stateserver object initialized from the view argument.
-		void create_distributed_view(DistributedObject view);
+
+
+		/** IN PROGRESS API **/
+		// generate_object creates a stateserver object initialized from the view argument.
+		void generate_object(DistributedObject view, channel_t stateserver);
+
+		// activates an object onto a dbss
+		void activate_object(doid_t object_id);
 
 	private:
 		void handle_object_entry(...);
