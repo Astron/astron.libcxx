@@ -22,4 +22,13 @@ class Connection
 		// When given a timeout, it will wait upto the specified time before returning.
 		bool poll_datagram(Datagram &dg);
 		//bool poll_datagram(Datagram &dg, <timeout>);
+
+		// poll_forever will block forever and receive datagrams as they come in.
+		// When a datagram is received the (overridable) handle_datagram method is called.
+		bool poll_forever();
+
+	protected:
+		virtual void handle_datagram(Datagram &dg)
+		{
+		}
 };
