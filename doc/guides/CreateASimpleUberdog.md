@@ -6,7 +6,7 @@ Creating A Simple Uberdog
 
 **With quick setup**
 ```cpp
-#include <libastron-cxx/InternalRepository.h>
+#include <libastron-cxx/internal/InternalRepository.h>
 #include "MyUberdog.h"
 
 using namespace astron;
@@ -17,6 +17,7 @@ int main(int argc, const char* argv[])
 {
 	MyUberdog* ud = new MyUberdog(UBERDOG_ID);
 	InternalRepository air = InternalRepository(ud);
+	air.poll_forever();
 }
 ```
 
@@ -32,6 +33,7 @@ int main(int argc, const char* argv[])
 
 	air.connect();
 	air.subscribe_channel(UBERDOG_ID);
+	air.poll_forever();
 }
 ```
 
