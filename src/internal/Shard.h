@@ -14,6 +14,9 @@ class Shard
 
 		// activates an object onto a dbss
 		void activate_object(doid_t object_id);
+
+		// deletes the AI objects from ram (via StateserverDeleteAIObjects)
+		void delete_objects();
 };
 
 
