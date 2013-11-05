@@ -5,7 +5,7 @@ Creating A Simple Uberdog
 //TODO: Describe the code snippets
 
 **With quick setup**
-```c_cpp
+```cpp
 #include <libastron-cxx/InternalRepository.h>
 #include "MyUberdog.h"
 
