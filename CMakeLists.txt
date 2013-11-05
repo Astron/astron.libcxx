@@ -75,13 +75,30 @@ add_library (dcparser
 )
 
 add_library (libastron-cxx
-	src/messages/messages.h
-	src/messages/Datagram.h
-	src/messages/DatagramIterator.h
-	src/connection/Connection.h
-	src/connection/NetworkClient.h
-	src/connection/NetworkClient.cpp
+	src/util/types.h
+	src/util/Datagram.h
+	src/util/DatagramIterator.h
+	src/util/Connection.h
+	src/objects/DistributedObject.h
+	src/objects/ObjectFactory.h
+	src/objects/ObjectRepository.h
 )
-
 add_dependencies (libastron-cxx dcparser)
 target_link_libraries (libastron-cxx dcparser ${Boost_LIBRARIES})
+
+add_library (libastron-cxx-client
+	src/client/ClientConnection.h
+	src/client/ClientMessages.h
+	src/client/ClientRepository.h
+)
+add_dependencies (libastron-cxx-client libastron-cxx)
+target_link_libaries (libastron-cxx-client libastron-cxx)
+
+add_library (libastron-cxx-internal
+	src/internal/InternalConnection.h
+	src/internal/InternalMessages.h
+	src/internal/InternalRepository.h
+	src/internal/Shard.h
+)
+add_dependencies (libastron-cxx-internal libastron-cxx)
+target_link_libaries (libastron-cxx-internal libastron-cxx)
