@@ -21,7 +21,7 @@ int main(int argc, const char* argv[])
 ```
 
 **With manual setup**
-```
+```cpp
 int main(int argc, const char* argv[])
 {
 	MyUberdog* ud = new MyUberdog(UBERDOG_ID);
