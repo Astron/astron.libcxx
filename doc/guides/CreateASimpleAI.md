@@ -17,6 +17,7 @@ int main(int argc, const char* argv[])
 	Shard shard* = new Shard(air, AI_CHANNEL, STATESERVER_CHANNEL, MIN_ID, MAX_ID);
 
 	/** Setup initial Shard state **/
+	/// Example setup code
 	//shard.activate_object(WORLD_OBJECT_ID);
 	//shard.activate_object(CITY_FOO_ID);
 	//shard.activate_object(CITY_BAR_ID);
