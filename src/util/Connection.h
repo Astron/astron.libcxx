@@ -1,5 +1,7 @@
 #pragma once
 #include "util/Datagram.h"
+namespace astron { // open namespace
+
 
 // Implementation Notes:
 //     If necessary connection can subclass another class (maybe NetworkClient for example);
@@ -32,3 +34,6 @@ class Connection
 		{
 		}
 };
+
+
+} // close namespace

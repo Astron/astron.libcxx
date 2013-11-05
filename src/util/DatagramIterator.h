@@ -4,10 +4,11 @@
 #include <exception>
 #include <stdexcept>
 #include <sstream>
-
 #ifdef _DEBUG
 #include <fstream>
 #endif
+namespace astron { // open namespace
+
 
 class DatagramIteratorEOF : public std::runtime_error
 {
@@ -309,3 +310,6 @@ class DatagramIterator
 			m_offset += length;
 		}
 };
+
+
+} // close namespace

@@ -4,8 +4,10 @@
 #include <vector>
 #include <string.h> // memcpy
 #include "messages/types.h"
-
 #define DGSIZE_SIZE_BYTES 2
+namespace astron { // open namespace
+
+
 typedef uint16_t dgsize_t;
 
 class Datagram
@@ -217,3 +219,6 @@ class Datagram
 			return buf;
 		}
 };
+
+
+} // close namespace

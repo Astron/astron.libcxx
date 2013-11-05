@@ -1,10 +1,11 @@
 #pragma once
 #include <stdint.h>
-
-// Defined types
-typedef uint64_t channel_t;
-typedef uint32_t doid_t;
-typedef uint32_t zone_t;
+namespace astron
+{
+	typedef uint64_t channel_t;
+	typedef uint32_t doid_t;
+	typedef uint32_t zone_t;
+}
 
 #define CHANNEL_MAX ((channel_t)(0) - 1)
 #define CHANNEL_SIZE_BYTES 8
