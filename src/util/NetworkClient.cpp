@@ -1,4 +1,3 @@
-#include "messages/messages.h"
 #include "NetworkClient.h"
 #include <boost/bind.hpp>
 #include <stdexcept>

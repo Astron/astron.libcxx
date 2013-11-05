@@ -1,7 +1,10 @@
-#include "repository/ObjectRepository.h"
-#include "connection/InternalConnection.h"
+#pragma once
+#include "InternalConnection.h"
+#include "objects/ObjectRepository.h"
+namespace astron { // open namespace
 
-class InternalRepository : public ObjectRepository, InternalConnection
+
+class InternalRepository : public ObjectRepository, public InternalConnection
 {
 	public:
 		// Manual constructor.
@@ -30,3 +33,6 @@ class InternalRepository : public ObjectRepository, InternalConnection
 	private:
 		void handle_object_entry(...);
 };
+
+
+} // close namespace

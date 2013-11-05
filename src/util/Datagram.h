@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include <string.h> // memcpy
-#include "core/messages.h"
+#include "messages/types.h"
 
 #define DGSIZE_SIZE_BYTES 2
 typedef uint16_t dgsize_t;

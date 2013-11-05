@@ -1,4 +1,8 @@
-#include "messages/clientMessages.h"
+#pragma once
+#include "ClientMessages.h"
+#include "util/Datagram.h"
+namespace astron { // open namespace
+
 
 // Implementation Notes:
 //     If necessary connection can subclass another class (maybe NetworkClient for example);
@@ -24,3 +28,6 @@ class ClientConnection
 		virtual void handle_datagram(const Datagram &dg) = 0;
 		virtual void handle_eject(std::string reason) = 0;
 };
+
+
+} // close namespace

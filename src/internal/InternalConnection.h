@@ -1,4 +1,8 @@
-#include "messages/internalMessages.h"
+#pragma once
+#include "InternalMessages.h"
+#include "util/Datagram.h"
+namespace astron { // open namespace
+
 
 // Implementation Notes:
 //     If necessary connection can subclass another class (maybe NetworkClient for example);
@@ -28,3 +32,6 @@ class InternalConnection
 	protected:
 		virtual void handle_datagram(const Datagram &dg) = 0;
 };
+
+
+} // close namespace
