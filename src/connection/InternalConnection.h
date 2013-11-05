@@ -7,7 +7,10 @@
 class InternalConnection
 {
 	public:
-		InternalConnection(std::string addr = "127.0.0.1", uint16_t port = 7199);
+		InternalConnection();
+
+		// connect opens a tcp connection to the astron cluster
+		void connect(std::string addr = "127.0.0.1", uint16_t port = 7199);
 
 		// Control messages
 		void subscribe_channel(channel_t channel);
