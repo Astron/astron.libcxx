@@ -1,19 +1,7 @@
 #pragma once
-#include <stdint.h>
-
-// Defined types
-typedef uint64_t channel_t;
-typedef uint32_t doid_t;
-typedef uint32_t zone_t;
-
-#define CHANNEL_MAX ((channel_t)(0) - 1)
-#define CHANNEL_SIZE_BYTES 8
-#define DOID_SIZE_BYTES 4
-#define ZONE_SIZE_BITS 32
-#define ZONE_SIZE_BYTES (ZONE_SIZE_BITS/8)
+#include "types.h"
 
 // Channel constants
-#define INVALID_CHANNEL 0
 #define CONTROL_MESSAGE 1
 #define BCHAN_CLIENTS 10
 #define BCHAN_STATESERVERS 12
@@ -23,17 +11,6 @@ typedef uint32_t zone_t;
 // Location macros
 #define LOCATION2CHANNEL(p, z) ((channel_t)(p) << ZONE_SIZE_BITS|(channel_t)(z))
 #define PARENT2CHILDREN(p) (PARENT_PREFIX|(channel_t)(p))
-
-// DO ID Constants
-#define INVALID_DO_ID 0
-#define INVALID_ZONE 0
-
-// Message Booleans
-#define SUCCESS 1
-#define FAILURE 0
-
-// Reserve message-type 0
-#define RESERVED_MSG_TYPE 0
 
 // Control range
 #define CONTROL_MSGTYPE_MIN         9000

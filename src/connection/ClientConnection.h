@@ -1,13 +1,13 @@
-#include "messages/messages.h"
+#include "messages/clientMessages.h"
 
 // Implementation Notes:
 //     If necessary connection can subclass another class (maybe NetworkClient for example);
 //     However, any inherited virtual functions must be implemented. Subclasses of connection
 //     should only be required to implement handle_datagram.
-class Connection
+class InternalConnection
 {
 	public:
-		Connection(std::string addr = "127.0.0.1", uint16_t port = 7199);
+		InternalConnection(std::string addr = "127.0.0.1", uint16_t port = 7199);
 
 		// Control messages
 		void subscribe_channel(channel_t channel);
