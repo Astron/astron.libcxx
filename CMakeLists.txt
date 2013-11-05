@@ -66,9 +66,6 @@ endif()
 
 
 include_directories (src)
-add_library (libastron-cxx
-	${CLIENTAGENT_FILES}
-)
 
 add_library (dcparser
 	src/dcparser/p3dcparser_composite1.cxx 
