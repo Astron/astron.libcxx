@@ -82,6 +82,7 @@ endif()
 
 
 include_directories (src)
+include_directories (dependencies/asio/asio/include)
 add_library (libastron++
 	${CLIENTAGENT_FILES}
 )
