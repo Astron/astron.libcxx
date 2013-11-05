@@ -1,14 +1,10 @@
 #pragma once
 #include "InternalMessages.h"
-#include "util/Datagram.h"
+#include "util/Connection.h"
 namespace astron { // open namespace
 
 
-// Implementation Notes:
-//     If necessary connection can subclass another class (maybe NetworkClient for example);
-//     However, any inherited virtual functions must be implemented. Subclasses of connection
-//     should only be required to implement handle_datagram.
-class InternalConnection
+class InternalConnection : public Connection
 {
 	public:
 		InternalConnection();
@@ -25,12 +21,6 @@ class InternalConnection
 		void clear_post_removes();
 		void set_conn_url(std::string uri);
 		void set_conn_name(std::string name);
-
-		// Outgoing datagram
-		void send_datagram(const Datagram &dg);
-
-	protected:
-		virtual void handle_datagram(const Datagram &dg) = 0;
 };
 
 
