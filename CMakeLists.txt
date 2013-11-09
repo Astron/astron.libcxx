@@ -74,7 +74,7 @@ add_library (dcparser
 	src/dcparser/dcParser.cxx
 )
 
-add_library (libastron-cxx
+add_library (astron-cxx
 	src/util/types.h
 	src/util/Datagram.h
 	src/util/DatagramIterator.h
@@ -83,22 +83,22 @@ add_library (libastron-cxx
 	src/objects/ObjectFactory.h
 	src/objects/ObjectRepository.h
 )
-add_dependencies (libastron-cxx dcparser)
-target_link_libraries (libastron-cxx dcparser ${Boost_LIBRARIES})
+add_dependencies (astron-cxx dcparser)
+target_link_libraries (astron-cxx dcparser ${Boost_LIBRARIES})
 
-add_library (libastron-cxx-client
+add_library (astron-cxx-client
 	src/client/ClientConnection.h
 	src/client/ClientMessages.h
 	src/client/ClientRepository.h
 )
-add_dependencies (libastron-cxx-client libastron-cxx)
-target_link_libaries (libastron-cxx-client libastron-cxx)
+add_dependencies (astron-cxx-client astron-cxx)
+target_link_libraries (astron-cxx-client astron-cxx)
 
-add_library (libastron-cxx-internal
+add_library (astron-cxx-internal
 	src/internal/InternalConnection.h
 	src/internal/InternalMessages.h
 	src/internal/InternalRepository.h
 	src/internal/Shard.h
 )
-add_dependencies (libastron-cxx-internal libastron-cxx)
-target_link_libaries (libastron-cxx-internal libastron-cxx)
+add_dependencies (astron-cxx-internal astron-cxx)
+target_link_libraries (astron-cxx-internal astron-cxx)
