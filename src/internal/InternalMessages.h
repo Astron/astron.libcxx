@@ -1,5 +1,5 @@
 #pragma once
-#include "types.h"
+#include "util/types.h"
 
 // Channel constants
 #define CONTROL_MESSAGE 1

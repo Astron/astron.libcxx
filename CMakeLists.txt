@@ -79,6 +79,7 @@ add_library (astron-cxx
 	src/util/Datagram.h
 	src/util/DatagramIterator.h
 	src/util/Connection.h
+	src/util/Connection.cpp
 	src/objects/DistributedObject.h
 	src/objects/ObjectFactory.h
 	src/objects/ObjectRepository.h
@@ -88,6 +89,7 @@ target_link_libraries (astron-cxx dcparser ${Boost_LIBRARIES})
 
 add_library (astron-cxx-client
 	src/client/ClientConnection.h
+	src/client/ClientConnection.cpp
 	src/client/ClientMessages.h
 	src/client/ClientRepository.h
 )
@@ -96,6 +98,7 @@ target_link_libraries (astron-cxx-client astron-cxx)
 
 add_library (astron-cxx-internal
 	src/internal/InternalConnection.h
+	src/internal/InternalConnection.cpp
 	src/internal/InternalMessages.h
 	src/internal/InternalRepository.h
 	src/internal/Shard.h

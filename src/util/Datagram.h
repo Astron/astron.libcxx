@@ -3,7 +3,9 @@
 #include <string>
 #include <vector>
 #include <string.h> // memcpy
-#include "messages/types.h"
+#include "types.h"
+#include "internal/InternalMessages.h"
+
 #define DGSIZE_SIZE_BYTES 2
 namespace astron { // open namespace
 
