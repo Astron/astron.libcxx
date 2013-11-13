@@ -10,9 +10,9 @@ class NetworkClient
 		virtual ~NetworkClient();
 		void set_socket(boost::asio::ip::tcp::socket *socket);
 
-		virtual void network_datagram(Datagram &dg) = 0;
+		virtual void network_datagram(astron::Datagram &dg) = 0;
 		virtual void network_disconnect() = 0;
-		void network_send(Datagram &dg);
+		void network_send(astron::Datagram &dg);
 		void do_disconnect();
 		bool is_connected();
 
@@ -25,6 +25,6 @@ class NetworkClient
 
 		uint8_t m_size_buf[2];
 		uint8_t* m_data_buf;
-		dgsize_t m_data_size;
+		astron::dgsize_t m_data_size;
 		bool m_is_data;
 };

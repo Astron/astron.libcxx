@@ -1,6 +1,7 @@
 #include "NetworkClient.h"
 #include <boost/bind.hpp>
 #include <stdexcept>
+#include <list>
 
 using boost::asio::ip::tcp;
 
@@ -68,10 +69,10 @@ void NetworkClient::start_receive()
 	}
 }
 
-void NetworkClient::network_send(Datagram &dg)
+void NetworkClient::network_send(astron::Datagram &dg)
 {
 	//TODO: make this asynch if necessary
-	dgsize_t len = dg.size();
+	astron::dgsize_t len = dg.size();
 	try
 	{
 		m_socket->non_blocking(true);
@@ -102,8 +103,8 @@ void NetworkClient::handle_size(const boost::system::error_code &ec, size_t byte
 		return;
 	}
 
-	dgsize_t old_size = m_data_size;
-	m_data_size = *(dgsize_t*)m_size_buf;
+	astron::dgsize_t old_size = m_data_size;
+	m_data_size = *(astron::dgsize_t*)m_size_buf;
 	if(m_data_size > old_size)
 	{
 		delete [] m_data_buf;
@@ -121,7 +122,7 @@ void NetworkClient::handle_data(const boost::system::error_code &ec, size_t byte
 		return;
 	}
 
-	Datagram dg(m_data_buf, m_data_size); // Datagram makes a copy
+	astron::Datagram dg(m_data_buf, m_data_size); // Datagram makes a copy
 	m_is_data = false;
 	network_datagram(dg);
 	start_receive();
