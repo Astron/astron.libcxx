@@ -16,9 +16,9 @@ namespace astron {
     
     void Connection::send_datagram(const Datagram &dg)
     {
-        
-        
+        network_send(dg);
     }
+    
     
     // recv_datagram waits for the next datagram and stores it in dg.
     void Connection::recv_datagram(Datagram &dg)
@@ -40,6 +40,18 @@ namespace astron {
     bool Connection::poll_forever(){
         
         return  false;
+        
+    }
+    
+    
+    //Implementations of NetworkClient Virtual Functions
+    void Connection::network_datagram(astron::Datagram &dg)
+    {
+        handle_datagram(dg);
+    }
+    
+    void Connection::network_disconnect()
+    {
         
     }
 
