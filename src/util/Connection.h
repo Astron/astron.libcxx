@@ -14,6 +14,9 @@ namespace astron { // open namespace
 	public:
 		Connection();
         
+        // connect opens a tcp connection to the astron cluster
+		void connect(std::string addr = "127.0.0.1", uint16_t port = 7199);
+        
 		/** I/O operations **/
 		// send_datagram immediately sends the datagram.
 		void send_datagram(const Datagram &dg);

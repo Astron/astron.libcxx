@@ -3,16 +3,23 @@
 using boost::asio::ip::tcp;
 
 namespace astron {
-    Connection::Connection(){
+    Connection::Connection():NetworkClient(){
         
-        
-//        boost::asio::io_service io_service;
-//        
-//        tcp::socket s(io_service);
-//        tcp::resolver resolver(io_service);
-//        boost::asio::connect(s, resolver.resolve({argv[1], argv[2]}));
+
         
     }
+    
+    // connect opens a tcp connection to the astron cluster
+    void Connection::connect(std::string addr, uint16_t port)
+    {
+        boost::asio::io_service io_service;
+        tcp::socket s(io_service);
+        tcp::endpoint endpoint(boost::asio::ip::address_v4::from_string(addr) , port);
+        s.connect(endpoint);
+        
+        NetworkClient::set_socket(&s);
+    }
+    
     
     void Connection::send_datagram(const Datagram &dg)
     {
