@@ -12,21 +12,34 @@ namespace astron {
     
     
     // Manual constructor.
-    InternalRepository::InternalRepository(){
+    InternalRepository::InternalRepository():InternalConnection()
+    {
         
     }
+    
+    
+    
     // Auto-connect constructor: Connects to the cluster with the given addr and port
-    InternalRepository::InternalRepository(std::string addr, uint16_t port){
+    InternalRepository::InternalRepository(std::string addr, uint16_t port):InternalConnection()
+    {
         
     }
+    
+    
+    
     // Auto-connect as object: Attaches the object argument, connects to the cluster,
     //                         and subscribes to the object's id.
-    InternalRepository::InternalRepository(DistributedObject* object){
+    InternalRepository::InternalRepository(DistributedObject* object)
+    {
         
     }
+    
+    
+    
     InternalRepository::InternalRepository(DistributedObject* object, std::string addr, uint16_t port){
         
     }
+    
     
     
     // poll_forever blocks forever and processes datagrams as they come in

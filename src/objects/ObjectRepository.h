@@ -2,7 +2,12 @@
 namespace astron { // open namespace
 
 
-class ObjectRepository;
+    class ObjectRepository
+    {
+    public: 
+        ObjectRepository();
+        
+    };
 
 
 } // close namespace
