@@ -37,10 +37,18 @@ namespace astron { // open namespace
 	protected:
 		virtual void handle_datagram(Datagram &dg);
         
-        
+        //Implementation of NetworkClient's virtuals
         void network_datagram(astron::Datagram &dg);
-        
         void network_disconnect();
+    
+    private:
+        
+        //These are used for pull networking
+        bool hasDatagram;
+        Datagram *currentDatagram;
+        
+        //perhaps this should be part of a "ConnectionState" member?
+        bool isPolling;
         
     };
     

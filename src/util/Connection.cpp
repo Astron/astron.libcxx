@@ -5,7 +5,7 @@ using boost::asio::ip::tcp;
 namespace astron {
     Connection::Connection():NetworkClient(){
         
-
+        hasDatagram = false;
         
     }
     
@@ -30,6 +30,21 @@ namespace astron {
     // recv_datagram waits for the next datagram and stores it in dg.
     void Connection::recv_datagram(Datagram &dg)
     {
+        //We are in polling mode
+        isPolling = true;
+        
+        //TODO: This is a horable busy wait loop....
+        //Make this better.
+        while (!hasDatagram);
+        if (currentDatagram) {
+            dg = *currentDatagram;
+        }
+        
+        //Clean-up
+        hasDatagram = false;
+        currentDatagram = NULL;
+        isPolling = false;
+        
         
     }
     
@@ -54,11 +69,25 @@ namespace astron {
     //Implementations of NetworkClient Virtual Functions
     void Connection::network_datagram(astron::Datagram &dg)
     {
-        handle_datagram(dg);
+        if (isPolling) {
+            //we are in sync mode... set we have a datagram.
+            //This is probably not thread safe atm...
+            currentDatagram = &dg;
+            hasDatagram = true;
+        }else{
+            //otherwise we are doing async networking
+            handle_datagram(dg);
+            
+        }
+        
+        
+        
     }
+    
     
     void Connection::network_disconnect()
     {
+        //OUR NETWORK DISCONNECTED!!! :(
         
     }
 
