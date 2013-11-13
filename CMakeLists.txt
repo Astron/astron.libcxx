@@ -85,6 +85,7 @@ add_library (astron-cxx
 	src/objects/DistributedObject.h
 	src/objects/ObjectFactory.h
 	src/objects/ObjectRepository.h
+	src/objects/ObjectRepository.cpp
 )
 add_dependencies (astron-cxx dcparser)
 target_link_libraries (astron-cxx dcparser ${Boost_LIBRARIES})
@@ -103,6 +104,7 @@ add_library (astron-cxx-internal
 	src/internal/InternalConnection.cpp
 	src/internal/InternalMessages.h
 	src/internal/InternalRepository.h
+	src/internal/InternalRepository.cpp
 	src/internal/Shard.h
 )
 add_dependencies (astron-cxx-internal astron-cxx)
