@@ -47,4 +47,9 @@ namespace astron {
         
     }
     
+    
+    void handle_datagram(Datagram &dg)
+    {
+        
+    }
 }//close namespace

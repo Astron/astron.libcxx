@@ -1,5 +1,6 @@
 #pragma once
 #include "util/Datagram.h"
+#include "util/NetworkClient.h"
 
 namespace astron { // open namespace
 
@@ -8,7 +9,7 @@ namespace astron { // open namespace
 //     If necessary connection can subclass another class (maybe NetworkClient for example);
 //     However, any inherited virtual functions must be implemented. Subclasses of connection
 //     should only be required to implement handle_datagram.
-class Connection
+class Connection : public NetworkClient
 {
 	public:
 		Connection();
@@ -34,6 +35,7 @@ class Connection
 		virtual void handle_datagram(Datagram &dg)
 		{
 		}
+    
 };
 
 

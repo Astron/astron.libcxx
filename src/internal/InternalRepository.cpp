@@ -12,7 +12,7 @@ namespace astron {
     
     
     // Manual constructor.
-    InternalRepository::InternalRepository():InternalConnection()
+    InternalRepository::InternalRepository():ObjectRepository(),InternalConnection()
     {
         
     }
@@ -20,8 +20,9 @@ namespace astron {
     
     
     // Auto-connect constructor: Connects to the cluster with the given addr and port
-    InternalRepository::InternalRepository(std::string addr, uint16_t port):InternalConnection()
+    InternalRepository::InternalRepository(std::string addr, uint16_t port):ObjectRepository(),InternalConnection()
     {
+        InternalConnection::connect(addr, port);
         
     }
     
@@ -29,14 +30,15 @@ namespace astron {
     
     // Auto-connect as object: Attaches the object argument, connects to the cluster,
     //                         and subscribes to the object's id.
-    InternalRepository::InternalRepository(DistributedObject* object)
+    InternalRepository::InternalRepository(DistributedObject* object):ObjectRepository(),InternalConnection()
     {
         
     }
     
     
     
-    InternalRepository::InternalRepository(DistributedObject* object, std::string addr, uint16_t port){
+    InternalRepository::InternalRepository(DistributedObject* object, std::string addr, uint16_t port):ObjectRepository(),InternalConnection()
+    {
         
     }
     

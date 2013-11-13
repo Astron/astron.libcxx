@@ -1,8 +1,16 @@
 #include "Connection.h"
 
+using boost::asio::ip::tcp;
 
 namespace astron {
     Connection::Connection(){
+        
+        
+//        boost::asio::io_service io_service;
+//        
+//        tcp::socket s(io_service);
+//        tcp::resolver resolver(io_service);
+//        boost::asio::connect(s, resolver.resolve({argv[1], argv[2]}));
         
     }
     
