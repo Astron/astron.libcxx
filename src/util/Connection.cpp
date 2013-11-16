@@ -1,32 +1,67 @@
 #include "Connection.h"
 #include <string>
 
-namespace astron   // open namespace
+namespace astron
 {
+// open namespace
 using boost::asio::ip;
 using boost::asio::ip::tcp;
 
 
+// Creates an empty connection, ready for use
 Connection::Connection()
 {
 }
 
-// connect(std::string) expects a domain-name or ip-address, with optional port,
-// resolves that address, and opens a tcp connection to the astron cluster.
-bool Connection::connect(std::string addr)
+// Create a Connection from an already opened socket.
+Connection::Connection(boost::asio::ip::tcp::socket *socket)
 {
-	std::string port;
+	set_socket(socket);
+}
+
+// Destructor
+Connection::~Connection()
+{
+	if(m_socket)
+	{
+		m_socket->close();
+	}
+	delete m_socket;
+}
+
+
+// connect open a tcp connection to an astron cluster.
+// A domain-name or ip-address and port can be specified.
+// Connects to "localhost:7199" by default.
+// Returns false if connection failed.
+bool Connection::connect(std::string host = "127.0.0.1", uint16_t port = 7199)
+{
+	return connect(host + ":" + std::to_string(port));
+}
+
+// connect with a single string arguments expects a domain-name or ip-address
+// with optional port, resolves the string to an address,
+// and opens a tcp connection to an astron cluster.
+// Returns false if connection failed.
+bool Connection::connect(std::string host)
+{
+	std::string addr, port;
+	if(m_socket)
+	{
+		throw std::logic_error("Trying to connect when already connected.");
+	}
 
 	// Parse out port from address string
-	unsigned int col_index = str.find_last_of(":");
-	unsigned int sqr_index = str.find_last_of("]");
+	unsigned int col_index = host.find_last_of(":");
+	unsigned int sqr_index = host.find_last_of("]");
 	if(col_index != std::string::npos && col_index > sqr_index)
 	{
-		addr = addr.substr(0, col_index);
-		port = addr.substr(col_index + 1);
+		addr = host.substr(0, col_index);
+		port = host.substr(col_index + 1);
 	}
 	else
 	{
+		addr = host;
 		port = "7199";
 	}
 
@@ -35,8 +70,7 @@ bool Connection::connect(std::string addr)
 	tcp::resolver resolver(ios);
 	tcp::resolver::query query(addr, port);
 
-	// Perform synchronous resolution of the addresss. Note that, synchronous resolution is well
-	// suited to being used in libastron, wheras asynchronous should be used in Astron proper.
+	// Perform synchronous resolution of the addresss.
 	boost::system::error_code err;
 	tcp::resolver::iterator addr_it = resolver.resolve(query, err);
 	if(err)
@@ -52,24 +86,44 @@ bool Connection::connect(std::string addr)
 		return false;
 	}
 
-	// Connect to the first endpoint
-	tcp::socket s(ios);
+	// Setup socket
+	m_socket = tcp::socket(ios);
+	boost::asio::socket_base::keep_alive keepalive(true);
+	boost::asio::ip::tcp::no_delay nodelay(true);
+	m_socket->set_option(keepalive);
+	m_socket->set_option(nodelay);
+
+	// Connect to the first available endpoint
 	s.connect(addr_it);
-
-	// TODO: Store socket somewhere?
-
 	return true;
 }
 
-
+// send_datagram immediately sends a datagram.
 void Connection::send_datagram(const Datagram &dg)
 {
+	dgsize_t len = dg.size();
+	try
+	{
+		m_socket->non_blocking(true);
+		m_socket->native_non_blocking(true);
+		std::list<boost::asio::const_buffer> gather;
+		gather.push_back(boost::asio::buffer((uint8_t*)&len, 2));
+		gather.push_back(boost::asio::buffer(dg.get_data(), dg.size()));
+		m_socket->send(gather);
+	}
+	catch(std::exception &e)
+	{
+		// We assume that the message just got dropped if the remote end died
+		// before we could send it.
+		disconnect();
+	}
 }
-
 
 // recv_datagram waits for the next datagram and stores it in dg.
 void Connection::recv_datagram(Datagram &dg)
 {
+	// TODO: Implement
+	return false;
 }
 
 // poll_datagram receives a datagram if one is immediately available.
@@ -77,18 +131,44 @@ void Connection::recv_datagram(Datagram &dg)
 // When given a timeout, it will wait upto the specified time before returning.
 bool Connection::poll_datagram(Datagram &dg)
 {
-
+	// TODO: Implement
 	return false;
 }
 //bool poll_datagram(Datagram &dg, <timeout>);
 
 // poll_forever will block forever and receive datagrams as they come in.
 // When a datagram is received the (overridable) handle_datagram method is called.
-bool Connection::poll_forever()
+void Connection::poll_forever()
 {
+	// TODO: Implement
+}
 
-	return  false;
+void Connection::set_socket(tcp::socket *socket)
+{
+	if(m_socket)
+	{
+		throw std::logic_error("Trying to set a socket of a Connection whose socket was already set.");
+	}
+	m_socket = socket;
 
+	boost::asio::socket_base::keep_alive keepalive(true);
+	m_socket->set_option(keepalive);
+
+	boost::asio::ip::tcp::no_delay nodelay(true);
+	m_socket->set_option(nodelay);
+}
+
+// handle_datagram is called whenever a packet is received after having called poll_forever.
+// Can be overridden by subclasses to provide custom message behavior.
+void Connection::handle_datagram()
+{
+}
+
+// disconnect closes the tcp socket.
+// Can be overriden by subclasses to handle clean-up before disconnecting.
+void Connection::disconnect()
+{
+	m_socket->close();
 }
 
 
