@@ -1,96 +1,95 @@
 #include "Connection.h"
+#include <string>
 
+namespace astron   // open namespace
+{
+using boost::asio::ip;
 using boost::asio::ip::tcp;
 
-namespace astron {
-    Connection::Connection():NetworkClient(){
-        
-        hasDatagram = false;
-        
-    }
-    
-    // connect opens a tcp connection to the astron cluster
-    void Connection::connect(std::string addr, uint16_t port)
-    {
-        boost::asio::io_service io_service;
-        tcp::socket s(io_service);
-        tcp::endpoint endpoint(boost::asio::ip::address_v4::from_string(addr) , port);
-        s.connect(endpoint);
-        
-        NetworkClient::set_socket(&s);
-    }
-    
-    
-    void Connection::send_datagram(const Datagram &dg)
-    {
-        network_send(dg);
-    }
-    
-    
-    // recv_datagram waits for the next datagram and stores it in dg.
-    void Connection::recv_datagram(Datagram &dg)
-    {
-        //We are in polling mode
-        isPolling = true;
-        
-        //TODO: This is a horable busy wait loop....
-        //Make this better.
-        while (!hasDatagram);
-        if (currentDatagram) {
-            dg = *currentDatagram;
-        }
-        
-        //Clean-up
-        hasDatagram = false;
-        currentDatagram = NULL;
-        isPolling = false;
-        
-        
-    }
-    
-    // poll_datagram receives a datagram if one is immediately available.
-    // Returns true if a datagram was received and false otherwise.
-    // When given a timeout, it will wait upto the specified time before returning.
-    bool Connection::poll_datagram(Datagram &dg){
-        
-        return false;
-    }
-    //bool poll_datagram(Datagram &dg, <timeout>);
-    
-    // poll_forever will block forever and receive datagrams as they come in.
-    // When a datagram is received the (overridable) handle_datagram method is called.
-    bool Connection::poll_forever(){
-        
-        return  false;
-        
-    }
-    
-    
-    //Implementations of NetworkClient Virtual Functions
-    void Connection::network_datagram(astron::Datagram &dg)
-    {
-        if (isPolling) {
-            //we are in sync mode... set we have a datagram.
-            //This is probably not thread safe atm...
-            currentDatagram = &dg;
-            hasDatagram = true;
-        }else{
-            //otherwise we are doing async networking
-            handle_datagram(dg);
-            
-        }
-        
-        
-        
-    }
-    
-    
-    void Connection::network_disconnect()
-    {
-        //OUR NETWORK DISCONNECTED!!! :(
-        
-    }
 
-    
-    
+Connection::Connection()
+{
 }
+
+// connect(std::string) expects a domain-name or ip-address, with optional port,
+// resolves that address, and opens a tcp connection to the astron cluster.
+bool Connection::connect(std::string addr)
+{
+	std::string port;
+
+	// Parse out port from address string
+	unsigned int col_index = str.find_last_of(":");
+	unsigned int sqr_index = str.find_last_of("]");
+	if(col_index != std::string::npos && col_index > sqr_index)
+	{
+		addr = addr.substr(0, col_index);
+		port = addr.substr(col_index + 1);
+	}
+	else
+	{
+		port = "7199";
+	}
+
+	// Resolve the address with the port as the designated service.
+	boost::asio::io_service ios;
+	tcp::resolver resolver(ios);
+	tcp::resolver::query query(addr, port);
+
+	// Perform synchronous resolution of the addresss. Note that, synchronous resolution is well
+	// suited to being used in libastron, wheras asynchronous should be used in Astron proper.
+	boost::system::error_code err;
+	tcp::resolver::iterator addr_it = resolver.resolve(query, err);
+	if(err)
+	{
+		// TODO: Maybe a log message or return a more descriptive error?
+		return false;
+	}
+
+	// If there is at least one endpoint
+	if(addr_it == tcp::resolver::iterator())
+	{
+		// TODO: Maybe a log message or return a more descriptive error?
+		return false;
+	}
+
+	// Connect to the first endpoint
+	tcp::socket s(ios);
+	s.connect(addr_it);
+
+	// TODO: Store socket somewhere?
+
+	return true;
+}
+
+
+void Connection::send_datagram(const Datagram &dg)
+{
+}
+
+
+// recv_datagram waits for the next datagram and stores it in dg.
+void Connection::recv_datagram(Datagram &dg)
+{
+}
+
+// poll_datagram receives a datagram if one is immediately available.
+// Returns true if a datagram was received and false otherwise.
+// When given a timeout, it will wait upto the specified time before returning.
+bool Connection::poll_datagram(Datagram &dg)
+{
+
+	return false;
+}
+//bool poll_datagram(Datagram &dg, <timeout>);
+
+// poll_forever will block forever and receive datagrams as they come in.
+// When a datagram is received the (overridable) handle_datagram method is called.
+bool Connection::poll_forever()
+{
+
+	return  false;
+
+}
+
+
+} // close namespace astron
