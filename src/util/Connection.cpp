@@ -123,7 +123,12 @@ void Connection::send_datagram(const Datagram &dg)
 // recv_datagram waits for the next datagram and stores it in dg.
 void Connection::recv_datagram(Datagram &dg)
 {
-	// TODO: Implement
+	// Get datagram size
+	read(*m_socket, boost::asio::buffer(m_size_buf, 2));
+
+	// Get datagram data
+	dgsize_t data_size = *(dgsize_t*)m_size_buf;
+	read(*m_socket, boost::asio::buffer(dg.add_buffer(data_size), data_size));
 }
 
 // poll_datagram receives a datagram if one is immediately available.
@@ -134,7 +139,9 @@ bool Connection::poll_datagram(Datagram &dg)
 	// TODO: Implement
 	return false;
 }
-//bool poll_datagram(Datagram &dg, <timeout>);
+bool poll_datagram(Datagram &dg, std::chrono::nanoseconds timeout)
+{
+}
 
 // poll_forever will block forever and receive datagrams as they come in.
 // When a datagram is received the (overridable) handle_datagram method is called.

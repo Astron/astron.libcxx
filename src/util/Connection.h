@@ -69,6 +69,9 @@ class Connection
 		virtual void handle_datagram(const Datagram &dg);
 
 		boost::asio::ip::tcp::socket *m_socket;
+
+	private:
+		uint8_t m_size_buf[2];
 };
 
 
