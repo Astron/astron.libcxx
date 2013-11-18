@@ -1,5 +1,6 @@
 #pragma once
 #include "util/Datagram.h"
+#include <boost/asio.hpp>
 #include <chrono>
 
 namespace astron
@@ -26,16 +27,16 @@ class Connection
 		// A domain-name or ip-address and port can be specified.
 		// Connects to "localhost:7199" by default.
 		// Returns false if connection failed.
-		bool connect(std::string host = "127.0.0.1", uint16_t port = 7199);
+		bool connect(std::string host, uint16_t port);
 
 		// connect with a single string arguments expects a domain-name or ip-address
 		// with optional port formatted as "addr:port".
 		// Returns false if connection failed.
-		bool connect(std::string addr);
+		bool connect(std::string addr = "127.0.0.1:7199");
 
 		// disconnect closes the tcp socket.
 		// Can be overriden by subclasses to handle clean-up before disconnecting.
-		virtual void disconnect(Datagram &dg);
+		virtual void disconnect();
 
 		// is_connected returns true if the connection has an open socket, false otherwise.
 		bool is_connected();
@@ -65,7 +66,7 @@ class Connection
 	protected:
 		// handle_datagram is called whenever a packet is received after having called poll_forever.
 		// Can be overridden by subclasses to provide custom message behavior.
-		virtual void handle_datagram(Datagram &dg);
+		virtual void handle_datagram(const Datagram &dg);
 
 		boost::asio::ip::tcp::socket *m_socket;
 };

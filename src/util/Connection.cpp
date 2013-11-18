@@ -1,10 +1,11 @@
 #include "Connection.h"
+#include <list>
 #include <string>
 
 namespace astron
 {
 // open namespace
-using boost::asio::ip;
+using namespace boost::asio;
 using boost::asio::ip::tcp;
 
 
@@ -34,9 +35,9 @@ Connection::~Connection()
 // A domain-name or ip-address and port can be specified.
 // Connects to "localhost:7199" by default.
 // Returns false if connection failed.
-bool Connection::connect(std::string host = "127.0.0.1", uint16_t port = 7199)
+bool Connection::connect(std::string host, uint16_t port)
 {
-	return connect(host + ":" + std::to_string(port));
+	return connect(host + ":" + std::to_string((uint32_t)port));
 }
 
 // connect with a single string arguments expects a domain-name or ip-address
@@ -87,14 +88,14 @@ bool Connection::connect(std::string host)
 	}
 
 	// Setup socket
-	m_socket = tcp::socket(ios);
+	m_socket = new tcp::socket(ios);
 	boost::asio::socket_base::keep_alive keepalive(true);
 	boost::asio::ip::tcp::no_delay nodelay(true);
 	m_socket->set_option(keepalive);
 	m_socket->set_option(nodelay);
 
 	// Connect to the first available endpoint
-	s.connect(addr_it);
+	m_socket->connect(*addr_it);
 	return true;
 }
 
@@ -123,7 +124,6 @@ void Connection::send_datagram(const Datagram &dg)
 void Connection::recv_datagram(Datagram &dg)
 {
 	// TODO: Implement
-	return false;
 }
 
 // poll_datagram receives a datagram if one is immediately available.
@@ -160,7 +160,7 @@ void Connection::set_socket(tcp::socket *socket)
 
 // handle_datagram is called whenever a packet is received after having called poll_forever.
 // Can be overridden by subclasses to provide custom message behavior.
-void Connection::handle_datagram()
+void Connection::handle_datagram(const Datagram &dg)
 {
 }
 
