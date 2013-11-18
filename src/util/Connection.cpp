@@ -6,6 +6,7 @@ namespace astron
 {
 // open namespace
 using namespace boost::asio;
+using namespace boost::system;
 using boost::asio::ip::tcp;
 
 
@@ -72,7 +73,7 @@ bool Connection::connect(std::string host)
 	tcp::resolver::query query(addr, port);
 
 	// Perform synchronous resolution of the addresss.
-	boost::system::error_code err;
+	error_code err;
 	tcp::resolver::iterator addr_it = resolver.resolve(query, err);
 	if(err)
 	{
@@ -120,27 +121,43 @@ void Connection::send_datagram(const Datagram &dg)
 	}
 }
 
-// recv_datagram waits for the next datagram and stores it in dg.
-void Connection::recv_datagram(Datagram &dg)
+error_code Connection::_receive(Datagram &dg)
 {
 	// Get datagram size
-	read(*m_socket, boost::asio::buffer(m_size_buf, 2));
+	error_code err;
+	read(*m_socket, boost::asio::buffer(m_size_buf, 2), err);
+	if(err)
+	{
+		return err;
+	}
 
 	// Get datagram data
 	dgsize_t data_size = *(dgsize_t*)m_size_buf;
 	read(*m_socket, boost::asio::buffer(dg.add_buffer(data_size), data_size));
+	return ec;
 }
+
+// recv_datagram waits for the next datagram and stores it in dg.
+void Connection::recv_datagram(Datagram &dg)
+{
+	m_socket->non_blocking(false);
+	m_socket->native_non_blocking(false);
+	_receive(dg);
+}
+
+void Connection::recv_datagram(void (*callback)(Datagram&))
+{
+
+}
+
 
 // poll_datagram receives a datagram if one is immediately available.
 // Returns true if a datagram was received and false otherwise.
-// When given a timeout, it will wait upto the specified time before returning.
 bool Connection::poll_datagram(Datagram &dg)
 {
-	// TODO: Implement
-	return false;
-}
-bool poll_datagram(Datagram &dg, std::chrono::nanoseconds timeout)
-{
+    m_socket->non_blocking(true);
+    m_socket->native_non_blocking(true);
+	return _receive(dg) != boost::asio::error::would_block)
 }
 
 // poll_forever will block forever and receive datagrams as they come in.
