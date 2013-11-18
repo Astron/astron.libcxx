@@ -51,8 +51,8 @@ class Connection
 		void send_datagram(const Datagram &dg);
 
 		// recv_datagram waits for the next datagram and stores it in dg.
-		// When called with a function pointer, recv_datagram returns immediately and calls
-		// the passed function when it next receives a datagram.
+		// When called with a function pointer, recv_datagram returns immediately
+		// and calls the passed function when it next receives a datagram.
 		void recv_datagram(Datagram &dg);
 		void recv_datagram(void (*handler)(Datagram&));
 

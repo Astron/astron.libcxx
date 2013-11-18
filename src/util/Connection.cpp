@@ -134,7 +134,7 @@ error_code Connection::_receive(Datagram &dg)
 	// Get datagram data
 	dgsize_t data_size = *(dgsize_t*)m_size_buf;
 	read(*m_socket, boost::asio::buffer(dg.add_buffer(data_size), data_size));
-	return ec;
+	return err;
 }
 
 // recv_datagram waits for the next datagram and stores it in dg.
@@ -145,9 +145,11 @@ void Connection::recv_datagram(Datagram &dg)
 	_receive(dg);
 }
 
+// When called with a function pointer, recv_datagram returns immediately and
+// calls the passed function when it next receives a datagram.
 void Connection::recv_datagram(void (*callback)(Datagram&))
 {
-
+	// TODO: Implement
 }
 
 
@@ -157,7 +159,7 @@ bool Connection::poll_datagram(Datagram &dg)
 {
     m_socket->non_blocking(true);
     m_socket->native_non_blocking(true);
-	return _receive(dg) != boost::asio::error::would_block)
+	return _receive(dg) != boost::asio::error::would_block;
 }
 
 // poll_forever will block forever and receive datagrams as they come in.
