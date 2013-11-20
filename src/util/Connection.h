@@ -74,7 +74,7 @@ class Connection
 	private:
 		boost::system::error_code _receive(Datagram &dg);
 
-		uint8_t m_size_buf[2];
+		uint8_t m_size_buf[sizeof(dgsize_t)];
 };
 
 

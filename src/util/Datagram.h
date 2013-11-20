@@ -1,7 +1,10 @@
 #pragma once
 #include <set>
 #include <string>
+#include <sstream>
 #include <vector>
+#include <exception>
+#include <stdexcept>
 #include <string.h> // memcpy
 #include "types.h"
 
@@ -58,13 +61,17 @@ class Datagram
 		{
 		}
 
+		/*
+		// TODO: Deal with overload collision with Datagram(uint16_t message_type)
+
 		// sized-constructor:
 		//     allows you to specify the capacity of the datagram ahead of time,
 		//     this should be used when the exact size is known ahead of time for performance
-		Datagram(const dgsize_t capacity) : buf(new uint8_t[capacity]), buf_cap(capacity),
+		Datagram(dgsize_t capacity) : buf(new uint8_t[capacity]), buf_cap(capacity),
 			buf_offset(0)
 		{
 		}
+		*/
 
 		// copy-constructor:
 		//     creates a new datagram which is a deep-copy of another datagram;
@@ -77,7 +84,7 @@ class Datagram
 
 		// shallow-constructor:
 		//     creates a new datagram that uses an existing buffer as its data
-		Datagram(const uint8_t *data, dgsize_t length, dgsize_t capacity) : buf(data),
+		Datagram(uint8_t *data, dgsize_t length, dgsize_t capacity) : buf(data),
 			buf_cap(capacity), buf_offset(length)
 		{
 		}
@@ -108,7 +115,7 @@ class Datagram
 
 		// server-header-constructor(single-receiver):
 		//     creates a new datagram initialized with a server header (accepts only 1 receiver).
-		Datagram(uint64_t to_channel, uint64_t from_channel, uint16_t message_type) :
+		Datagram(channel_t to_channel, channel_t from_channel, uint16_t message_type) :
 			buf(new uint8_t[64]), buf_cap(64), buf_offset(0)
 		{
 			add_server_header(to_channel, from_channel, message_type);
@@ -116,7 +123,7 @@ class Datagram
 
 		// server-header-constructor(multi-target):
 		//     creates a new datagram initialized with a server header (accepts a set of receivers)
-		Datagram(const std::set<uint64_t> &to_channels, uint64_t from_channel,
+		Datagram(const std::set<uint64_t> &to_channels, channel_t from_channel,
 		         uint16_t message_type) : buf(new uint8_t[64]), buf_cap(64), buf_offset(0)
 		{
 			add_server_header(to_channels, from_channel, message_type);
@@ -321,10 +328,10 @@ class Datagram
 			memcpy(buf + buf_offset, str.c_str(), str.length());
 			buf_offset += str.length();
 		}
-		void add_string(const char* str, length)
+		void add_string(const char* str, dgsize_t length)
 		{
-			add_size(length;
-			check_add_length(length;
+			add_size(length);
+			check_add_length(length);
 			memcpy(buf + buf_offset, str, length);
 			buf_offset += length;
 		}
@@ -338,7 +345,7 @@ class Datagram
 			memcpy(buf + buf_offset, &blob[0], blob.size());
 			buf_offset += blob.size();
 		}
-		void add_blob(const uint8_t* data, uint16_t length) {
+		void add_blob(const uint8_t* data, dgsize_t length) {
 			add_size(length);
 			check_add_length(length);
 			memcpy(buf + buf_offset, data, length);

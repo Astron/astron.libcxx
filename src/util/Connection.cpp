@@ -109,7 +109,7 @@ void Connection::send_datagram(const Datagram &dg)
 		m_socket->non_blocking(true);
 		m_socket->native_non_blocking(true);
 		std::list<boost::asio::const_buffer> gather;
-		gather.push_back(boost::asio::buffer((uint8_t*)&len, 2));
+		gather.push_back(boost::asio::buffer((uint8_t*)&len, sizeof(dgsize_t)));
 		gather.push_back(boost::asio::buffer(dg.get_data(), dg.size()));
 		m_socket->send(gather);
 	}
@@ -125,7 +125,7 @@ error_code Connection::_receive(Datagram &dg)
 {
 	// Get datagram size
 	error_code err;
-	read(*m_socket, boost::asio::buffer(m_size_buf, 2), err);
+	read(*m_socket, boost::asio::buffer(m_size_buf, sizeof(dgsize_t)), err);
 	if(err)
 	{
 		return err;
@@ -166,7 +166,8 @@ bool Connection::poll_datagram(Datagram &dg)
 // When a datagram is received the (overridable) handle_datagram method is called.
 void Connection::poll_forever()
 {
-	// TODO: Implement
+	// TODO
+	//m_socket-
 }
 
 void Connection::set_socket(tcp::socket *socket)

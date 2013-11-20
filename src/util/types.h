@@ -23,3 +23,4 @@ namespace astron
 
 // Reserve message-type
 #define RESERVED_MSG_TYPE 0
+#define CONTROL_MESSAGE 1
