@@ -51,10 +51,10 @@ class Connection
 		void send_datagram(const Datagram &dg);
 
 		// recv_datagram waits for the next datagram and stores it in dg.
-		// When called with a function pointer, recv_datagram returns immediately
-		// and calls the passed function when it next receives a datagram.
+		// recv_datagram called with no datagram, returns immediately and asynchronously
+		// calls the subclasses's handle_datagram method on the next received datagram.
 		void recv_datagram(Datagram &dg);
-		void recv_datagram(void (*handler)(Datagram&));
+		void recv_datagram();
 
 		// poll_datagram(datagram) receives a datagram if one is immediately available.
 		// Returns true if a datagram was received and false otherwise.
@@ -69,12 +69,24 @@ class Connection
 		// Can be overridden by subclasses to provide custom message behavior.
 		virtual void handle_datagram(const Datagram &dg);
 
+		// handle_disconnect is called when the remote host closes the connection,
+		// or if the connection is otherwise lost; handle_disconnect is not called by disconnect();
+		virtual void handle_disconnect();
+
 		boost::asio::ip::tcp::socket *m_socket;
 
 	private:
 		boost::system::error_code _receive(Datagram &dg);
+		void _async_receive();
+		void _handle_size(const boost::system::error_code &ec, size_t bytes_transferred);
+		void _handle_data(const boost::system::error_code &ec, size_t bytes_transferred);
 
-		uint8_t m_size_buf[sizeof(dgsize_t)];
+		uint8_t m_size_buf[sizeof(dgsize_t)]; // buffer to receive datagram sizes into
+		uint8_t* m_async_buf; // pointer to buffer allocated for an asynchronous receive
+		dgsize_t m_async_size; // size of the buffer allocated for an asynchronous receive
+		bool m_expecting_data; // whether the next asynchronous read is data or a length tag.
+		bool m_is_async; // whether the connection is currently performing an asynchronous receive.
+		bool m_is_forever; // whether the connection is polling forever
 };
 
 
