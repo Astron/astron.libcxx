@@ -80,8 +80,6 @@ add_library (astron-cxx
 	src/util/DatagramIterator.h
 	src/util/Connection.h
 	src/util/Connection.cpp
-	src/util/NetworkClient.h
-	src/util/NetworkClient.cpp
 	src/objects/DistributedObject.h
 	src/objects/ObjectFactory.h
 	src/objects/ObjectRepository.h
