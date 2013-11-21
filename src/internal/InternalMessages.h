@@ -2,7 +2,6 @@
 #include "util/types.h"
 
 // Channel constants
-#define CONTROL_MESSAGE 1
 #define BCHAN_CLIENTS 10
 #define BCHAN_STATESERVERS 12
 #define BCHAN_DBSERVERS 13
