@@ -90,6 +90,46 @@ class DatagramIterator
 			return r;
 		}
 
+		// read_int8 reads a byte from the datagram,
+		// returning a signed 8-bit integer.
+		int8_t read_int8()
+		{
+			check_read_length(1);
+			int8_t r = *(int8_t*)(m_dg.get_data() + m_offset);
+			m_offset += 1;
+			return r;
+		}
+
+		// read_int16 reads 2 bytes from the datagram,
+		// returning a signed 16-bit integer in native endianness.
+		int16_t read_int16()
+		{
+			check_read_length(2);
+			int16_t r = *(int16_t*)(m_dg.get_data() + m_offset);
+			m_offset += 2;
+			return r;
+		}
+
+		// read_int32 reads 4 bytes from the datagram,
+		// returning a signed 32-bit integer in native endianness.
+		int32_t read_int32()
+		{
+			check_read_length(4);
+			int32_t r = *(int32_t*)(m_dg.get_data() + m_offset);
+			m_offset += 4;
+			return r;
+		}
+
+		// read_int64 reads 8 bytes from the datagram,
+		// returning a signed 64-bit integer in native endianness.
+		int64_t read_int64()
+		{
+			check_read_length(8);
+			int64_t r = *(int64_t*)(m_dg.get_data() + m_offset);
+			m_offset += 8;
+			return r;
+		}
+
 		// read_size reads a dgsize_t from the datagram.
 		dgsize_t read_size()
 		{
