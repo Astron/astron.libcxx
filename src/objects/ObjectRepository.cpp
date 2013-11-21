@@ -1,5 +1,6 @@
 #include "ObjectRepository.h"
-namespace astron { // open namespace
+namespace astron   // open namespace
+{
 
 
 ObjectRepository::ObjectRepository()

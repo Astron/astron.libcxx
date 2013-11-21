@@ -1,5 +1,6 @@
 #include "ObjectFactory.h"
-namespace astron { // open namespace
+namespace astron   // open namespace
+{
 
 
 ObjectFactory ObjectFactory::singleton;

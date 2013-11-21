@@ -1,7 +1,8 @@
 #pragma once
 #include "DistributedObject.h"
 #include <unordered_map>
-namespace astron { // open namespace
+namespace astron   // open namespace
+{
 
 
 class BaseObjectType

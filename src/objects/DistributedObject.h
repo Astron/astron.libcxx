@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
-namespace astron { // open namespace
+namespace astron   // open namespace
+{
 
 
 class DistributedObject

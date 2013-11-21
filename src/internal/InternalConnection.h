@@ -2,7 +2,8 @@
 #pragma once
 #include "InternalMessages.h"
 #include "util/Connection.h"
-namespace astron { // open namespace
+namespace astron   // open namespace
+{
 
 
 class InternalConnection : public Connection
@@ -22,11 +23,11 @@ class InternalConnection : public Connection
 		void clear_post_removes();
 		void set_conn_url(std::string uri);
 		void set_conn_name(std::string name);
-    
-protected:
-    void handle_datagram(Datagram &dg)
-    {
-    }
+
+	protected:
+		void handle_datagram(Datagram &dg)
+		{
+		}
 };
 
 

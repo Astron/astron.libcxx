@@ -1,11 +1,12 @@
 #pragma once
-namespace astron { // open namespace
+namespace astron   // open namespace
+{
 
 
 class ObjectRepository
 {
 	public:
-    	ObjectRepository();
+		ObjectRepository();
 };
 
 

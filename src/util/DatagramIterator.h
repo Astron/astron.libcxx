@@ -5,7 +5,8 @@
 #ifdef _DEBUG
 #include <fstream>
 #endif
-namespace astron { // open namespace
+namespace astron   // open namespace
+{
 
 
 #pragma once
