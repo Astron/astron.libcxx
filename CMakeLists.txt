@@ -81,7 +81,9 @@ add_library (astron-cxx
 	src/util/Connection.h
 	src/util/Connection.cpp
 	src/objects/DistributedObject.h
+	src/objects/DistributedObject.cpp
 	src/objects/ObjectFactory.h
+	src/objects/ObjectFactory.cpp
 	src/objects/ObjectRepository.h
 	src/objects/ObjectRepository.cpp
 )
