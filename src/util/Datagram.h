@@ -8,11 +8,12 @@
 #include <string.h> // memcpy
 #include "types.h"
 
-namespace astron { // open namespace
+namespace astron   // open namespace
+{
 #ifdef ASTRON_32BIT_DATAGRAMS
-	typedef uint32_t dgsize_t;
+typedef uint32_t dgsize_t;
 #else
-	typedef uint16_t dgsize_t;
+typedef uint16_t dgsize_t;
 #endif
 
 #define DGSIZE_MAX ((dgsize_t)(-1))
@@ -41,7 +42,7 @@ class Datagram
 			{
 				std::stringstream err_str;
 				err_str << "dg tried to add data past max datagram size, buf_offset+len("
-				    << buf_offset + len << ")" << " max_size(" << DGSIZE_MAX << ")" << std::endl;
+				        << buf_offset + len << ")" << " max_size(" << DGSIZE_MAX << ")" << std::endl;
 				throw DatagramOverflow(err_str.str());
 			}
 
@@ -68,7 +69,7 @@ class Datagram
 		//     allows you to specify the capacity of the datagram ahead of time,
 		//     this should be used when the exact size is known ahead of time for performance
 		Datagram(dgsize_t capacity) : buf(new uint8_t[capacity]), buf_cap(capacity),
-			buf_offset(0)
+		    buf_offset(0)
 		{
 		}
 		*/
@@ -146,8 +147,14 @@ class Datagram
 		// to be one of the values 0x00 (false) or 0x01 (true).
 		void add_bool(const bool &v)
 		{
-			if(v) add_uint8(1);
-			else add_uint8(0);
+			if(v)
+			{
+				add_uint8(1);
+			}
+			else
+			{
+				add_uint8(0);
+			}
 		}
 
 		// add_int8 adds a signed 8-bit integer value to the datagram.
@@ -301,7 +308,8 @@ class Datagram
 				buf_offset += str.length();
 			}
 		}
-		void add_data(const uint8_t* data, dgsize_t length) {
+		void add_data(const uint8_t* data, dgsize_t length)
+		{
 			if(length)
 			{
 				check_add_length(length);
@@ -345,7 +353,8 @@ class Datagram
 			memcpy(buf + buf_offset, &blob[0], blob.size());
 			buf_offset += blob.size();
 		}
-		void add_blob(const uint8_t* data, dgsize_t length) {
+		void add_blob(const uint8_t* data, dgsize_t length)
+		{
 			add_size(length);
 			check_add_length(length);
 			memcpy(buf + buf_offset, data, length);
@@ -364,7 +373,9 @@ class Datagram
 		uint8_t* add_buffer(dgsize_t length)
 		{
 			check_add_length(length);
-			return buf+buf_offset;
+			uint8_t* buf_start = buf + buf_offset;
+			buf_offset += length;
+			return buf_start;
 		}
 
 		// add_server_header prepends a generic header for messages that are supposed to be routed
