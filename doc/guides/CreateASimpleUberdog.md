@@ -16,7 +16,7 @@ using namespace astron;
 int main(int argc, const char* argv[])
 {
 	MyUberdog* ud = new MyUberdog(UBERDOG_ID);
-	InternalRepository air = InternalRepository(ud);
+	InternalRepository air = InternalRepository(ud, "example.com");
 	air.poll_forever();
 }
 ```
@@ -31,7 +31,7 @@ int main(int argc, const char* argv[])
 
 	// do some other fancy setup
 
-	air.connect();
+	air.connect("example.com");
 	air.subscribe_channel(UBERDOG_ID);
 	air.poll_forever();
 }
