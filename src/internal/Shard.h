@@ -1,5 +1,6 @@
 #pragma once
-namespace astron { // open namespace
+namespace astron   // open namespace
+{
 
 class Shard
 {

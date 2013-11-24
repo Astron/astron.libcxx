@@ -64,6 +64,11 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 	endif()
 endif()
 
+set (USE_32BIT_DATAGRAMS OFF CACHE BOOL "If on, datagrams and dclass fields will use 32-bit length tags instead of 16-bit.")
+if (USE_32BIT_DATAGRAMS)
+	add_definitions(-DASTRON_32BIT_DATAGRAMS)
+	add_definitions(-DDCPARSER_32BIT_LENGTH_TAG)
+endif()
 
 include_directories (src)
 
@@ -74,31 +79,38 @@ add_library (dcparser
 	src/dcparser/dcParser.cxx
 )
 
-add_library (libastron-cxx
+add_library (astron-cxx
 	src/util/types.h
 	src/util/Datagram.h
 	src/util/DatagramIterator.h
 	src/util/Connection.h
+	src/util/Connection.cpp
 	src/objects/DistributedObject.h
+	src/objects/DistributedObject.cpp
 	src/objects/ObjectFactory.h
+	src/objects/ObjectFactory.cpp
 	src/objects/ObjectRepository.h
+	src/objects/ObjectRepository.cpp
 )
-add_dependencies (libastron-cxx dcparser)
-target_link_libraries (libastron-cxx dcparser ${Boost_LIBRARIES})
+add_dependencies (astron-cxx dcparser)
+target_link_libraries (astron-cxx dcparser ${Boost_LIBRARIES})
 
-add_library (libastron-cxx-client
+add_library (astron-cxx-client
 	src/client/ClientConnection.h
+	src/client/ClientConnection.cpp
 	src/client/ClientMessages.h
 	src/client/ClientRepository.h
 )
-add_dependencies (libastron-cxx-client libastron-cxx)
-target_link_libaries (libastron-cxx-client libastron-cxx)
+add_dependencies (astron-cxx-client astron-cxx)
+target_link_libraries (astron-cxx-client astron-cxx)
 
-add_library (libastron-cxx-internal
+add_library (astron-cxx-internal
 	src/internal/InternalConnection.h
+	src/internal/InternalConnection.cpp
 	src/internal/InternalMessages.h
 	src/internal/InternalRepository.h
+	src/internal/InternalRepository.cpp
 	src/internal/Shard.h
 )
-add_dependencies (libastron-cxx-internal libastron-cxx)
-target_link_libaries (libastron-cxx-internal libastron-cxx)
+add_dependencies (astron-cxx-internal astron-cxx)
+target_link_libraries (astron-cxx-internal astron-cxx)

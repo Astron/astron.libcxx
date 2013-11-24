@@ -1,6 +1,7 @@
 #pragma once
 #include "InternalConnection.h"
 #include "objects/ObjectRepository.h"
+#include "objects/DistributedObject.h"
 #include <chrono>
 namespace astron   // open namespace
 {
