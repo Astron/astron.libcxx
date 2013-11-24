@@ -1,5 +1,5 @@
 #pragma once
-#include "types.h"
+#include "util/types.h"
 
 #define CLIENT_HELLO 1
 #define CLIENT_HELLO_RESP 2
