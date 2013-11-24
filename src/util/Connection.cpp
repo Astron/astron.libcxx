@@ -275,6 +275,10 @@ void Connection::poll_forever()
 	m_is_async = true;
 	m_is_forever = true;
 	_async_receive();
+    
+    boost::asio::io_service::work work(ios);
+    ios.run();
+    
 }
 
 void Connection::set_socket(tcp::socket *socket)
