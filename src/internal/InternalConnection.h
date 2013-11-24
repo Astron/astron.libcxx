@@ -1,6 +1,7 @@
 #pragma once
 #include "util/Connection.h"
-namespace astron { // open namespace
+namespace astron   // open namespace
+{
 
 
 class InternalConnection : public Connection
