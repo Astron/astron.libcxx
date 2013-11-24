@@ -71,7 +71,7 @@ bool Connection::connect(std::string host)
 	}
 
 	// Resolve the address with the port as the designated service.
-	boost::asio::io_service ios;
+	//boost::asio::io_service ios;
 	tcp::resolver resolver(ios);
 	tcp::resolver::query query(addr, port);
 
@@ -98,10 +98,15 @@ bool Connection::connect(std::string host)
 	// Connect to the first available endpoint
 	m_socket->connect(*addr_it);
     
+
+
+    
+    
     boost::asio::socket_base::keep_alive keepalive(true);
 	boost::asio::ip::tcp::no_delay nodelay(true);
 	m_socket->set_option(keepalive);
 	m_socket->set_option(nodelay);
+    
     
 	return true;
 }
