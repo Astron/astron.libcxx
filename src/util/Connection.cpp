@@ -57,8 +57,8 @@ bool Connection::connect(std::string host)
 	}
 
 	// Parse out port from address string
-	unsigned int col_index = host.find_last_of(":");
-	unsigned int sqr_index = host.find_last_of("]");
+    int col_index = host.find_last_of(":");
+    int sqr_index = host.find_last_of("]");
 	if(col_index != std::string::npos && col_index > sqr_index)
 	{
 		addr = host.substr(0, col_index);
@@ -71,7 +71,7 @@ bool Connection::connect(std::string host)
 	}
 
 	// Resolve the address with the port as the designated service.
-	boost::asio::io_service ios;
+	//boost::asio::io_service ios;
 	tcp::resolver resolver(ios);
 	tcp::resolver::query query(addr, port);
 
@@ -93,13 +93,21 @@ bool Connection::connect(std::string host)
 
 	// Setup socket
 	m_socket = new tcp::socket(ios);
-	boost::asio::socket_base::keep_alive keepalive(true);
-	boost::asio::ip::tcp::no_delay nodelay(true);
-	m_socket->set_option(keepalive);
-	m_socket->set_option(nodelay);
+
 
 	// Connect to the first available endpoint
 	m_socket->connect(*addr_it);
+    
+
+
+    
+    
+    boost::asio::socket_base::keep_alive keepalive(true);
+	boost::asio::ip::tcp::no_delay nodelay(true);
+	m_socket->set_option(keepalive);
+	m_socket->set_option(nodelay);
+    
+    
 	return true;
 }
 
@@ -267,6 +275,10 @@ void Connection::poll_forever()
 	m_is_async = true;
 	m_is_forever = true;
 	_async_receive();
+    
+    boost::asio::io_service::work work(ios);
+    ios.run();
+    
 }
 
 void Connection::set_socket(tcp::socket *socket)
