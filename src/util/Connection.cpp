@@ -59,7 +59,7 @@ bool Connection::connect(std::string host)
 	// Parse out port from address string
 	unsigned int col_index = host.find_last_of(":");
 	unsigned int sqr_index = host.find_last_of("]");
-	if(col_index != std::string::npos && col_index > sqr_index)
+	if(col_index != std::string::npos && col_index < sqr_index)
 	{
 		addr = host.substr(0, col_index);
 		port = host.substr(col_index + 1);
@@ -67,7 +67,7 @@ bool Connection::connect(std::string host)
 	else
 	{
 		addr = host;
-		port = "7199";
+		port = "57123";
 	}
 
 	// Resolve the address with the port as the designated service.
@@ -93,13 +93,16 @@ bool Connection::connect(std::string host)
 
 	// Setup socket
 	m_socket = new tcp::socket(ios);
-	boost::asio::socket_base::keep_alive keepalive(true);
-	boost::asio::ip::tcp::no_delay nodelay(true);
-	m_socket->set_option(keepalive);
-	m_socket->set_option(nodelay);
+
 
 	// Connect to the first available endpoint
 	m_socket->connect(*addr_it);
+    
+    boost::asio::socket_base::keep_alive keepalive(true);
+	boost::asio::ip::tcp::no_delay nodelay(true);
+	m_socket->set_option(keepalive);
+	m_socket->set_option(nodelay);
+    
 	return true;
 }
 
