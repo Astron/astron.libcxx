@@ -67,7 +67,7 @@ bool Connection::connect(std::string host)
 	else
 	{
 		addr = host;
-		port = "57123";
+		port = "7199";
 	}
 
 	// Resolve the address with the port as the designated service.
