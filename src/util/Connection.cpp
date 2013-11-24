@@ -57,9 +57,9 @@ bool Connection::connect(std::string host)
 	}
 
 	// Parse out port from address string
-	unsigned int col_index = host.find_last_of(":");
-	unsigned int sqr_index = host.find_last_of("]");
-	if(col_index != std::string::npos && col_index < sqr_index)
+    int col_index = host.find_last_of(":");
+    int sqr_index = host.find_last_of("]");
+	if(col_index != std::string::npos && col_index > sqr_index)
 	{
 		addr = host.substr(0, col_index);
 		port = host.substr(col_index + 1);
