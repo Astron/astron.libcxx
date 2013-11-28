@@ -10,6 +10,8 @@
 
 namespace astron   // open namespace
 {
+    //TODO: HACK REMOVE
+#define ASTRON_32BIT_DATAGRAMS
 #ifdef ASTRON_32BIT_DATAGRAMS
 typedef uint32_t dgsize_t;
 #else
