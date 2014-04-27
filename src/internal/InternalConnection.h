@@ -1,5 +1,7 @@
 #pragma once
 #include "util/Connection.h"
+#include "util/DatagramIterator.h"
+
 namespace astron   // open namespace
 {
 
@@ -18,6 +20,12 @@ class InternalConnection : public Connection
 		void clear_post_removes();
 		void set_conn_url(std::string uri);
 		void set_conn_name(std::string name);
+    
+    protected:
+        virtual void handle_datagram(const Datagram &dg, DatagramIterator &dgi);
+    
+    private:
+        void handle_datagram(const Datagram &dg);
 };
 
 
