@@ -22,7 +22,7 @@ class InternalRepository : public ObjectRepository, protected InternalConnection
 		InternalRepository(DistributedObject* object, std::string addr);
 
 		/* Publicly inherit InternalConnection's 'connect' methods */
-		InternalConnection::connect;
+		using InternalConnection::connect;
 
 		// poll_forever blocks forever and processes datagrams as they come in
 		void poll_forever();
