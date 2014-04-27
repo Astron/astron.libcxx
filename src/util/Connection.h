@@ -76,6 +76,7 @@ class Connection
 		boost::asio::ip::tcp::socket *m_socket;
 
 	private:
+        boost::asio::io_service ios;
 		boost::system::error_code _receive(Datagram &dg);
 		void _async_receive();
 		void _handle_size(const boost::system::error_code &ec, size_t bytes_transferred);

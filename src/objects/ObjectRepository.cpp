@@ -1,18 +1,11 @@
-//
-//  ObjectRepository.cpp
-//  libastron-cxx
-//
-//  Created by Alex Mault on 11/13/13.
-//
-//
-
 #include "ObjectRepository.h"
+namespace astron   // open namespace
+{
 
-namespace astron {
-    
-    ObjectRepository::ObjectRepository()
-    {
-        
-    }
-    
+
+ObjectRepository::ObjectRepository()
+{
 }
+
+
+} // close namespace astron

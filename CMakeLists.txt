@@ -63,6 +63,7 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 	endif()
 endif()
 
+
 ### START BUILD OPTIONS ###
 # Build client library
 set (BUILD_CLIENT ON CACHE BOOL "If on, will build the libastron-client library.")
@@ -83,7 +84,9 @@ if (USE_32BIT_DATAGRAMS)
 	add_definitions(-DASTRON_32BIT_DATAGRAMS)
 	add_definitions(-DDCPARSER_32BIT_LENGTH_TAG)
 endif()
-### END BUILD OPTIONS
+
+### END BUILD OPTIONS ###
+
 
 include_directories (src)
 
@@ -101,7 +104,9 @@ add_library (astron-cxx
 	src/util/Connection.h
 	src/util/Connection.cpp
 	src/objects/DistributedObject.h
+	src/objects/DistributedObject.cpp
 	src/objects/ObjectFactory.h
+	src/objects/ObjectFactory.cpp
 	src/objects/ObjectRepository.h
 	src/objects/ObjectRepository.cpp
 )

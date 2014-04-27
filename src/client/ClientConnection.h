@@ -1,7 +1,7 @@
 #pragma once
-#include "ClientMessages.h"
 #include "util/Connection.h"
-namespace astron { // open namespace
+namespace astron   // open namespace
+{
 
 
 // Implementation Notes:

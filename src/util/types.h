@@ -1,11 +1,15 @@
 #pragma once
 #include <stdint.h>
-namespace astron
+namespace astron // open namespace
 {
-	typedef uint64_t channel_t;
-	typedef uint32_t doid_t;
-	typedef uint32_t zone_t;
-}
+
+
+typedef uint64_t channel_t;
+typedef uint32_t doid_t;
+typedef uint32_t zone_t;
+
+
+} // close astron namespace
 
 #define CHANNEL_MAX ((channel_t)(0) - 1)
 #define CHANNEL_SIZE_BYTES 8
